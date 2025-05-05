@@ -13,32 +13,32 @@ app.get('/', (req, res) => {
     res.send('Hello world!!')
 })
 
-app.get('/users', (req, res) => {
+app.get('/LocationDB', (req, res) => {
     connection.query(
-        'SELECT * FROM users',
+        'SELECT * FROM LocationDB',
         function (err, results, fields) {
             res.send(results)
         }
     )
 })
 
-app.get('/users/:id', (req, res) => {
+app.get('/LocationDB/:id', (req, res) => {
     const id = req.params.id;
     connection.query(
-        'SELECT * FROM users WHERE id = ?', [id],
+        'SELECT * FROM LocationDB WHERE id = ?', [id],
         function (err, results, fields) {
             res.send(results)
         }
     )
 })
 
-app.post('/users', (req, res) => {
+app.post('/LocationDB', (req, res) => {
     connection.query(
-        'INSERT INTO `users` (`fname`, `lname`, `username`, `password`, `avatar`) VALUES (?, ?, ?, ?, ?)',
-        [req.body.fname, req.body.lname, req.body.username, req.body.password, req.body.avatar],
+        'INSERT INTO `LocationDB` (`fname`, `details`) VALUES (?, ?)',
+        [req.body.fname, req.body.details],
          function (err, results, fields) {
             if (err) {
-                console.error('Error in POST /users:', err);
+                console.error('Error in POST /Location:', err);
                 res.status(500).send('Error adding user');
             } else {
                 res.status(200).send(results);
@@ -47,19 +47,20 @@ app.post('/users', (req, res) => {
     )
 })
 
-app.put('/users', (req, res) => {
+app.put('/LocationDB', (req, res) => {
     connection.query(
-        'UPDATE `users` SET `fname`=?, `lname`=?, `username`=?, `password`=?, `avatar`=? WHERE id =?',
-        [req.body.fname, req.body.lname, req.body.username, req.body.password, req.body.avatar, req.body.id],
+        'UPDATE `LocationDB` SET `fname`=?, `details`=?WHERE id =?',
+        [req.body.fname, req.body.details, req.body.id],
          function (err, results, fields) {
             res.send(results)
         }
     )
 })
 
-app.delete('/users', (req, res) => {
+
+app.delete('/LocationDB', (req, res) => {
     connection.query(
-        'DELETE FROM `users` WHERE id =?',
+        'DELETE FROM LocationDB WHERE id =?',
         [req.body.id],
          function (err, results, fields) {
             res.send(results)
